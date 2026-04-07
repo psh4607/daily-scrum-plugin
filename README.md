@@ -9,21 +9,8 @@ Slack 데일리 스크럼 봇 스레드에 Linear 이슈 기반 자동 답글을
 
 ## 설치
 
-Claude Code 설정에서 플러그인을 추가합니다:
-
 ```bash
-# 로컬 경로로 추가
-claude plugin add /path/to/daily-scrum-plugin
-```
-
-또는 `~/.claude/settings.json`에 직접 추가:
-
-```json
-{
-  "plugins": [
-    "/path/to/daily-scrum-plugin"
-  ]
-}
+claude plugins add psh4607/daily-scrum-plugin
 ```
 
 ## 사용법
