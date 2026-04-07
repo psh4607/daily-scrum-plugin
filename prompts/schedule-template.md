@@ -4,7 +4,6 @@
 
 ## 설정 정보
 
-- 유저: {{USER_NAME}}
 - 채널: {{CHANNEL_NAMES}}
 - 채널별 봇 정보: {{CHANNELS_CONFIG}}
 - 봇 이름: {{BOT_NAME}}
@@ -86,18 +85,17 @@
 메시지 포맷:
 
 ```
-{{USER_NAME}}
 :clipboard: *오늘 할 일*
-• PROJ-123 이슈 제목
-• PROJ-456 이슈 제목
+• <https://linear.app/dalpha/issue/PROJ-123/이슈-슬러그|PROJ-123 이슈 제목>
+• <https://linear.app/dalpha/issue/PROJ-456/이슈-슬러그|PROJ-456 이슈 제목>
 
 :white_check_mark: *어제 한 일*        ← 월요일에는 *지난주 한 일*
-• PROJ-789 이슈 제목
+• <https://linear.app/dalpha/issue/PROJ-789/이슈-슬러그|PROJ-789 이슈 제목>
 ```
 
 작성 규칙:
-- 각 이슈는 `• 이슈식별자 이슈제목` 형태로 한 줄씩 나열한다.
+- 각 이슈는 `• <이슈URL|이슈식별자 이슈제목>` 형태로 한 줄씩 나열한다. URL은 Linear API에서 받은 이슈의 `url` 필드를 사용한다.
 - 이슈식별자는 Linear의 팀 prefix + 번호 (예: `PROJ-123`) 형태를 그대로 사용한다.
 - 해당 섹션에 이슈가 0개이면 `• 없음`으로 표시한다.
 - 월요일에는 "어제 한 일" 대신 "지난주 한 일"로 라벨을 변경한다.
-- Slack mrkdwn 문법을 사용한다 (이모지 shortcode, `*bold*`).
+- Slack mrkdwn 문법을 사용한다 (이모지 shortcode, `*bold*`, `<url|text>` 링크).
