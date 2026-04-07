@@ -10,7 +10,7 @@
     {
       "name": "daily-scrum",
       "description": "Slack 데일리 스크럼 봇 스레드에 Linear 이슈 기반 자동 답글을 남기는 Claude Code 플러그인",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "seongho",
         "email": "psh4607@gmail.com"
@@ -27,5 +27,5 @@
       ]
     }
   ],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
