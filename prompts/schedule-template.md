@@ -80,7 +80,8 @@
 
 ### 4단계: 답글 전송
 
-3단계에서 확보한 각 스레드에 `slack_reply_to_thread`로 답글을 전송한다.
+3단계에서 확보한 각 스레드에 `slack_send_message`로 답글을 전송한다.
+`thread_ts` 파라미터에 봇 메시지의 timestamp를 넣어 스레드 답글로 작성한다.
 
 메시지 포맷:
 
