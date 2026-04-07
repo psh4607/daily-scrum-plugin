@@ -1,0 +1,31 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "daily-scrum",
+  "description": "Linear 이슈 기반 Slack 데일리 스크럼 자동 답글. 매일 아침 봇 스레드에 오늘 할 일/어제 한 일을 자동 게시하고, 휴일에는 자동 스킵합니다.",
+  "owner": {
+    "name": "seongho",
+    "email": "psh4607@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "daily-scrum",
+      "description": "Slack 데일리 스크럼 봇 스레드에 Linear 이슈 기반 자동 답글을 남기는 Claude Code 플러그인",
+      "version": "0.1.0",
+      "author": {
+        "name": "seongho",
+        "email": "psh4607@gmail.com"
+      },
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/psh4607/daily-scrum-plugin",
+      "tags": [
+        "daily-scrum",
+        "slack",
+        "linear",
+        "calendar",
+        "automation"
+      ]
+    }
+  ],
+  "version": "0.1.0"
+}
