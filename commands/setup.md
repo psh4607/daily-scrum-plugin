@@ -340,22 +340,63 @@ Read 도구로 `prompts/schedule-template.md`를 읽는다. 경로는 이 파일
 - KST 기준 월~금이 UTC로 전날이 되는 경우: cron 요일을 `0-4` (일~목)로 설정한다.
 - KST 기준 월~금이 UTC로 같은 날인 경우: cron 요일을 `1-5` (월~금)로 설정한다.
 
-**4) CronCreate로 스케줄 등록**
+**4) MCP 커넥터 정보 수집**
 
-CronCreate 도구를 호출하여 스케줄을 등록한다:
-- **이름**: `daily-scrum-{채널이름}` (예: `daily-scrum-daily-standup`)
-- **cron 표현식**: 위에서 계산한 UTC 기반 cron (평일만)
-- **프롬프트**: 플레이스홀더가 치환된 schedule-template.md 전체 내용
+RemoteTrigger에 MCP 커넥터 정보가 필요하다. 다음 순서로 수집한다:
+
+1. `RemoteTrigger action:"list"`로 기존 트리거 목록을 조회한다.
+2. 기존 트리거가 있으면 → 해당 트리거의 `mcp_connections`에서 Linear, Google-Calendar, Slack 커넥터 정보(connector_uuid, name, url)를 추출한다.
+3. 기존 트리거가 없으면 → 유저에게 안내한다:
+   > claude.ai에서 RemoteTrigger를 한 번도 생성한 적이 없는 것 같습니다.
+   > claude.ai → Settings → Scheduled에서 아무 트리거나 하나 생성한 뒤 다시 시도해주세요. (MCP 커넥터 UUID를 얻기 위함)
+
+   유저가 "완료"라고 하면 다시 `RemoteTrigger action:"list"`로 조회하여 커넥터 정보를 추출한다.
+
+**5) RemoteTrigger로 스케줄 등록**
+
+`RemoteTrigger action:"create"`를 호출하여 스케줄을 등록한다. body 형식:
+
+```json
+{
+  "name": "daily-scrum-{채널이름}",
+  "cron_expression": "{위에서 계산한 UTC 기반 cron}",
+  "enabled": true,
+  "persist_session": false,
+  "mcp_connections": [
+    {"connector_uuid": "{추출한 UUID}", "name": "Google-Calendar", "permitted_tools": [], "url": "https://gcal.mcp.claude.com/mcp"},
+    {"connector_uuid": "{추출한 UUID}", "name": "Linear", "permitted_tools": [], "url": "https://mcp.linear.app/mcp"},
+    {"connector_uuid": "{추출한 UUID}", "name": "Slack", "permitted_tools": [], "url": "https://mcp.slack.com/mcp"}
+  ],
+  "job_config": {
+    "ccr": {
+      "events": [
+        {
+          "data": {
+            "message": {"content": "{치환된 schedule-template.md 전체 내용}", "role": "user"},
+            "type": "user",
+            "uuid": "{임의 UUID 생성}"
+          }
+        }
+      ],
+      "session_context": {
+        "allowed_tools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebFetch", "WebSearch"],
+        "model": "claude-sonnet-4-6"
+      }
+    }
+  }
+}
+```
 
 ### 5-3. 완료 안내
 
-스케줄 등록이 완료되면 유저에게 안내한다:
+스케줄 등록이 완료되면 응답에서 `trigger_id`를 확인하고 유저에게 안내한다:
 
 > 스케줄이 생성되었습니다!
 >
+> - **트리거 ID**: {trigger_id}
 > - **스케줄 이름**: daily-scrum-{채널이름}
 > - **실행 시각**: HH:MM KST (매주 월~금)
 > - **다음 실행**: (가장 가까운 다음 평일 시각)
 >
-> 스케줄 확인: `/schedule list` 커맨드로 등록된 스케줄 목록을 확인할 수 있습니다.
+> 스케줄 확인: claude.ai → Settings → Scheduled에서 등록된 스케줄을 확인할 수 있습니다.
 > 설정 수정: `/daily-scrum:modify` 커맨드로 채널, 시간, Linear 범위 등을 변경할 수 있습니다.
