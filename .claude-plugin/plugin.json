@@ -1,7 +1,7 @@
 {
   "name": "daily-scrum",
   "description": "Linear 이슈 기반 Slack 데일리 스크럼 자동 답글. 매일 아침 봇 스레드에 오늘 할 일/어제 한 일을 자동 게시하고, 휴일에는 자동 스킵합니다.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "seongho",
     "email": "psh4607@gmail.com"
